@@ -1,12 +1,11 @@
 #!/bin/bash
 set -e
 apt update -y \
-  &&  apt install -y uidmap fuse-overlayfs podman
-apt purge buildah golang-github-containers-common podman skopeo -y
-apt autoremove --purge  -y
-sh -c "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/unstable/xUbuntu_22.04/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:unstable.list"
-curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/unstable/xUbuntu_22.04/Release.key -o Release.key
-apt-key add Release.key
-apt update -y
-apt-get install skopeo -y
-rm -f Release.key
+  &&  apt install -y uidmap fuse-overlayfs curl wget
+wget http://ftp.gwdg.de/pub/opensuse/repositories/home:/alvistack/xUbuntu_22.04/amd64/skopeo_1.20.0-1_amd64.deb
+wget http://ftp.gwdg.de/pub/opensuse/repositories/home:/alvistack/xUbuntu_22.04/amd64/containers-common_0.64.2-1_amd64.deb
+apt install oci-runtime
+apt --fix-broken install
+dpkg -i containers-common_0.64.2-1_amd64.deb
+dpkg -i skopeo_1.20.0-1_amd64.de
+skopeo --version
